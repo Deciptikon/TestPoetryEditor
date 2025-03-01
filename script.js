@@ -82,6 +82,7 @@ function updateCanvas() {
 
   drawGradient(ctx, [canvas.width, canvas.height], RGB_GRAD, H_GRAD);
 
+  text(ctx, `1111`);
   //drawTitle(ctx, W_LINE_TEXT, H_LINE_TITLE - 90, 100, COLOR_TEXT, TEXT_TITLE);
   drawText(ctx, W_LINE_TEXT, H_LINE_TITLE - 50, 55, COLOR_TEXT, TEXT_TEXT);
 
