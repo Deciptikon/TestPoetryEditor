@@ -82,7 +82,7 @@ function updateCanvas() {
 
   drawGradient(ctx, [canvas.width, canvas.height], RGB_GRAD, H_GRAD);
 
-  drawTitle(ctx, W_LINE_TEXT, H_LINE_TITLE - 90, 100, COLOR_TEXT, TEXT_TITLE);
+  //drawTitle(ctx, W_LINE_TEXT, H_LINE_TITLE - 90, 100, COLOR_TEXT, TEXT_TITLE);
   drawText(ctx, W_LINE_TEXT, H_LINE_TITLE - 50, 55, COLOR_TEXT, TEXT_TEXT);
 
   drawSign(
@@ -122,7 +122,16 @@ function downloadCanvas() {
     .send("VKWebAppGetConfig")
     .then((data) => {
       console.log(data.platform);
-      data.platform === "android" ? test(ctx, "red") : test(ctx, "blue");
+      drawTitle(
+        ctx,
+        W_LINE_TEXT,
+        H_LINE_TITLE - 90,
+        100,
+        COLOR_TEXT,
+        `${data.platform}`
+      );
+      //data.platform === "android" ? test(ctx, "red") : test(ctx, "blue");
+      //return;
     })
     .catch((error) => {
       console.error(error);
