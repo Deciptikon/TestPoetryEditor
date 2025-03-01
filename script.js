@@ -156,6 +156,7 @@ function downloadCanvas() {
         canvas.toBlob(function (blob) {
           const reader = new FileReader();
           reader.readAsDataURL(blob);
+          text(ctx, `         blob`);
           reader.onloadend = function () {
             const base64data = reader.result.split(",")[1]; // Убираем data:image/png;base64,
 
