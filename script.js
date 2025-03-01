@@ -82,7 +82,7 @@ function updateCanvas() {
 
   drawGradient(ctx, [canvas.width, canvas.height], RGB_GRAD, H_GRAD);
 
-  text(ctx, `1111`);
+  text(ctx, `222`);
   //drawTitle(ctx, W_LINE_TEXT, H_LINE_TITLE - 90, 100, COLOR_TEXT, TEXT_TITLE);
   drawText(ctx, W_LINE_TEXT, H_LINE_TITLE - 50, 55, COLOR_TEXT, TEXT_TEXT);
 
@@ -156,27 +156,24 @@ function downloadCanvas() {
 
       if (data.app === "vkclient" || data.app === "vkme") {
         test(ctx, "red");
-        canvas.toBlob(function (blob) {
-          const blobUrl = URL.createObjectURL(blob);
-          text(ctx, `         blob`);
-          vkBridge
-            .send("VKWebAppShowSaveFileDialog", {
-              url: blobUrl,
-              filename: "my-image.png",
-            })
-            .then((response) => {
-              console.log("Файл успешно скачан:", response);
-              URL.revokeObjectURL(blobUrl);
-              text(ctx, `скачан`);
-              download = true;
-            })
-            .catch((error) => {
-              console.error("Ошибка при скачивании файла:", error);
-              URL.revokeObjectURL(blobUrl);
-              text(ctx, `ошибка`);
-              alert(`Ошибка при скачивании файла: ${error}`);
-            });
-        }, "image/png");
+        // Преобразуем canvas в base64
+        const imageBase64 = canvas.toDataURL("image/png");
+        text(ctx, "-->");
+
+        // Используем метод VKWebAppDownloadFile
+        vkBridge
+          .send("VKWebAppDownloadFile", {
+            url: imageBase64, // Передаем base64 как URL
+            filename: "my-image.png", // Имя файла
+          })
+          .then((response) => {
+            console.log("Файл успешно скачан:", response);
+            text(ctx, "    скачан");
+          })
+          .catch((error) => {
+            console.error("Ошибка при скачивании файла:", error);
+            text(ctx, "    ошибка");
+          });
         //return;
       } else {
         test(ctx, "blue");
