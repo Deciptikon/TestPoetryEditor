@@ -110,6 +110,10 @@ function test(ctx, color) {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
+function text(ctx, text) {
+  drawTitle(ctx, W_LINE_TEXT, H_LINE_TITLE - 90, 100, COLOR_TEXT, text);
+}
+
 function downloadCanvas() {
   if (window.vkBridge) {
     console.log("vkBridge доступен");
@@ -124,44 +128,28 @@ function downloadCanvas() {
       console.log("получаем платформу");
       console.log(data.app);
 
-      if (data.app === "vkclient" || data.app === "vkme") {
-        test(ctx, "red");
-        canvas.toBlob(function (blob) {
-          const blobUrl = URL.createObjectURL(blob);
+      canvas.toBlob(function (blob) {
+        const reader = new FileReader();
+        reader.readAsDataURL(blob);
+        reader.onloadend = function () {
+          const base64data = reader.result.split(",")[1];
+
           vkBridge
-            .send("VKWebAppDownloadFile", {
-              url: blobUrl,
-              filename: "my-image.png",
+            .send("VKWebAppShowSaveFileDialog", {
+              file_name: "my-image.png",
+              file_extension: "png",
+              file_data: base64data,
             })
             .then((response) => {
               console.log("Файл успешно скачан:", response);
-              drawTitle(
-                ctx,
-                W_LINE_TEXT,
-                H_LINE_TITLE - 90,
-                100,
-                COLOR_TEXT,
-                `скачан`
-              );
-              URL.revokeObjectURL(blobUrl);
+              text(ctx, `скачан`);
             })
             .catch((error) => {
               console.error("Ошибка при скачивании файла:", error);
-              drawTitle(
-                ctx,
-                W_LINE_TEXT,
-                H_LINE_TITLE - 90,
-                100,
-                COLOR_TEXT,
-                `ошибка`
-              );
-              URL.revokeObjectURL(blobUrl);
+              text(ctx, `ошибка`);
             });
-        }, "image/png");
-        //return;
-      } else {
-        test(ctx, "blue");
-      }
+        };
+      }, "image/png");
     })
     .catch((error) => {
       console.error(error);
