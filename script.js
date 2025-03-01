@@ -114,6 +114,27 @@ function text(ctx, text) {
   drawTitle(ctx, W_LINE_TEXT, H_LINE_TITLE - 90, 100, COLOR_TEXT, text);
 }
 
+function webDownload() {
+  //const link = document.createElement("a");
+  //link.href = URL.createObjectURL(blob);
+  //link.download = TEXT_TITLE + ".png";
+  //document.body.appendChild(link);
+  //link.click();
+  //document.body.removeChild(link);
+  //URL.revokeObjectURL(link.href);
+
+  /////////////////////////
+  var imageURL = canvas.toDataURL("image/png");
+
+  var link = document.createElement("a");
+  link.href = imageURL;
+  link.download = TEXT_TITLE + ".png";
+
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
 function downloadCanvas() {
   if (window.vkBridge) {
     console.log("vkBridge доступен");
@@ -130,43 +151,41 @@ function downloadCanvas() {
       console.log("получаем платформу");
       console.log(data.app);
 
-      canvas.toBlob(function (blob) {
-        const reader = new FileReader();
-        reader.readAsDataURL(blob);
-        reader.onloadend = function () {
-          const base64data = reader.result.split(",")[1];
+      if (data.app === "vkclient" || data.app === "vkme") {
+        test(ctx, "red");
+        canvas.toBlob(function (blob) {
+          const reader = new FileReader();
+          reader.readAsDataURL(blob);
+          reader.onloadend = function () {
+            const base64data = reader.result.split(",")[1]; // Убираем data:image/png;base64,
 
-          vkBridge
-            .send("VKWebAppShowSaveFileDialog", {
-              file_name: "my-image.png",
-              file_extension: "png",
-              file_data: base64data,
-            })
-            .then((response) => {
-              console.log("Файл успешно скачан:", response);
-              text(ctx, `скачан`);
-            })
-            .catch((error) => {
-              console.error("Ошибка при скачивании файла:", error);
-              text(ctx, `ошибка`);
-            });
-        };
-      }, "image/png");
+            vkBridge
+              .send("VKWebAppShowSaveFileDialog", {
+                file_name: "my-image.png",
+                file_extension: "png",
+                file_data: base64data,
+              })
+              .then((response) => {
+                console.log("Файл успешно скачан:", response);
+                text(ctx, `скачан`);
+              })
+              .catch((error) => {
+                console.error("Ошибка при скачивании файла:", error);
+                text(ctx, `ошибка`);
+                alert(`Ошибка при скачивании файла: ${error}`);
+              });
+          };
+        }, "image/png");
+        //return;
+      } else {
+        test(ctx, "blue");
+        webDownload();
+      }
     })
     .catch((error) => {
       console.error(error);
       test(ctx, "black");
     });
-
-  var imageURL = canvas.toDataURL("image/png");
-
-  var link = document.createElement("a");
-  link.href = imageURL;
-  link.download = TEXT_TITLE + ".png";
-
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
 }
 
 function test(ctx, color) {
