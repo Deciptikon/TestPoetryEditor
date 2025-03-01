@@ -123,17 +123,45 @@ function downloadCanvas() {
     .then((data) => {
       console.log("получаем платформу");
       console.log(data.app);
-      drawTitle(
-        ctx,
-        W_LINE_TEXT,
-        H_LINE_TITLE - 90,
-        100,
-        COLOR_TEXT,
-        `${data.app}`
-      );
 
-      //data.platform === "android" ? test(ctx, "red") : test(ctx, "blue");
-      //return;
+      if (data.app === "vkclient" || data.app === "vkme") {
+        test(ctx, "red");
+        canvas.toBlob(function (blob) {
+          const blobUrl = URL.createObjectURL(blob);
+          vkBridge
+            .send("VKWebAppDownloadFile", {
+              url: blobUrl,
+              filename: "my-image.png",
+            })
+            .then((response) => {
+              console.log("Файл успешно скачан:", response);
+              drawTitle(
+                ctx,
+                W_LINE_TEXT,
+                H_LINE_TITLE - 90,
+                100,
+                COLOR_TEXT,
+                `скачан`
+              );
+              URL.revokeObjectURL(blobUrl);
+            })
+            .catch((error) => {
+              console.error("Ошибка при скачивании файла:", error);
+              drawTitle(
+                ctx,
+                W_LINE_TEXT,
+                H_LINE_TITLE - 90,
+                100,
+                COLOR_TEXT,
+                `ошибка`
+              );
+              URL.revokeObjectURL(blobUrl);
+            });
+        }, "image/png");
+        //return;
+      } else {
+        test(ctx, "blue");
+      }
     })
     .catch((error) => {
       console.error(error);
