@@ -128,7 +128,7 @@ function downloadCanvas() {
         H_LINE_TITLE - 90,
         100,
         COLOR_TEXT,
-        `${data.platform}`
+        `${data.app}`
       );
 
       //data.platform === "android" ? test(ctx, "red") : test(ctx, "blue");
