@@ -165,11 +165,13 @@ function downloadCanvas() {
             })
             .then((response) => {
               console.log("Файл успешно скачан:", response);
+              URL.revokeObjectURL(blobUrl);
               text(ctx, `скачан`);
               download = true;
             })
             .catch((error) => {
               console.error("Ошибка при скачивании файла:", error);
+              URL.revokeObjectURL(blobUrl);
               text(ctx, `ошибка`);
               alert(`Ошибка при скачивании файла: ${error}`);
             });
