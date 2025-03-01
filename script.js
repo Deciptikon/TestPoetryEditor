@@ -117,8 +117,10 @@ function text(ctx, text) {
 function downloadCanvas() {
   if (window.vkBridge) {
     console.log("vkBridge доступен");
+    text(ctx, "vkBridge доступен");
   } else {
     console.error("vkBridge не найден");
+    text(ctx, "vkBridge доступен");
   }
   console.log(window.vkBridge);
 
