@@ -121,7 +121,8 @@ function downloadCanvas() {
   vkBridge
     .send("VKWebAppGetConfig")
     .then((data) => {
-      console.log(data.platform);
+      console.log("получаем платформу");
+      console.log(data.app);
       drawTitle(
         ctx,
         W_LINE_TEXT,
