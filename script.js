@@ -143,7 +143,6 @@ function downloadCanvas() {
             alert(`Ошибка при скачивании файла: ${error}`);
           });
       } else {
-        test(ctx, "blue");
         if (!download) {
           webDownload(nameImg);
           download = true;
@@ -158,11 +157,6 @@ function downloadCanvas() {
     webDownload(nameImg);
     download = true;
   }
-}
-
-function test(ctx, color) {
-  ctx.fillStyle = color;
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
 function drawColoredIMG(ctx, x, y, scale, color, img) {
