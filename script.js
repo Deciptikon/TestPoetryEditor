@@ -130,6 +130,7 @@ function downloadCanvas() {
         COLOR_TEXT,
         `${data.platform}`
       );
+
       //data.platform === "android" ? test(ctx, "red") : test(ctx, "blue");
       //return;
     })
