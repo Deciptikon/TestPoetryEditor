@@ -82,8 +82,7 @@ function updateCanvas() {
 
   drawGradient(ctx, [canvas.width, canvas.height], RGB_GRAD, H_GRAD);
 
-  text(ctx, `222`);
-  //drawTitle(ctx, W_LINE_TEXT, H_LINE_TITLE - 90, 100, COLOR_TEXT, TEXT_TITLE);
+  drawTitle(ctx, W_LINE_TEXT, H_LINE_TITLE - 90, 100, COLOR_TEXT, TEXT_TITLE);
   drawText(ctx, W_LINE_TEXT, H_LINE_TITLE - 50, 55, COLOR_TEXT, TEXT_TEXT);
 
   drawSign(
@@ -106,30 +105,12 @@ function updateCanvas() {
   drawRoundedRect(ctx, [canvas.width, canvas.height], 20, 25);
 }
 
-function test(ctx, color) {
-  ctx.fillStyle = color;
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-}
-
-function text(ctx, text) {
-  drawTitle(ctx, W_LINE_TEXT, H_LINE_TITLE - 90, 100, COLOR_TEXT, text);
-}
-
-function webDownload() {
-  //const link = document.createElement("a");
-  //link.href = URL.createObjectURL(blob);
-  //link.download = TEXT_TITLE + ".png";
-  //document.body.appendChild(link);
-  //link.click();
-  //document.body.removeChild(link);
-  //URL.revokeObjectURL(link.href);
-
-  /////////////////////////
+function webDownload(name) {
   var imageURL = canvas.toDataURL("image/png");
 
   var link = document.createElement("a");
   link.href = imageURL;
-  link.download = TEXT_TITLE + ".png";
+  link.download = name;
 
   document.body.appendChild(link);
   link.click();
@@ -138,15 +119,7 @@ function webDownload() {
 
 function downloadCanvas() {
   let download = false;
-
-  if (window.vkBridge) {
-    console.log("vkBridge доступен");
-    text(ctx, "vkBridge доступен");
-  } else {
-    console.error("vkBridge не найден");
-    text(ctx, "vkBridge доступен");
-  }
-  console.log(window.vkBridge);
+  let nameImg = TEXT_TITLE + ".png";
 
   vkBridge
     .send("VKWebAppGetConfig")
@@ -155,40 +128,34 @@ function downloadCanvas() {
       console.log(data.app);
 
       if (data.app === "vkclient" || data.app === "vkme") {
-        test(ctx, "red");
-        // Преобразуем canvas в base64
         const imageBase64 = canvas.toDataURL("image/png");
-        text(ctx, "-->");
 
-        // Используем метод VKWebAppDownloadFile
         vkBridge
           .send("VKWebAppDownloadFile", {
-            url: imageBase64, // Передаем base64 как URL
-            filename: "my-image.png", // Имя файла
+            url: imageBase64,
+            filename: nameImg,
           })
           .then((response) => {
             console.log("Файл успешно скачан:", response);
-            text(ctx, "    скачан");
           })
           .catch((error) => {
             console.error("Ошибка при скачивании файла:", error);
-            text(ctx, "    ошибка");
+            alert(`Ошибка при скачивании файла: ${error}`);
           });
-        //return;
       } else {
         test(ctx, "blue");
         if (!download) {
-          webDownload();
+          webDownload(nameImg);
           download = true;
         }
       }
     })
     .catch((error) => {
       console.error(error);
-      test(ctx, "black");
     });
+
   if (!download) {
-    webDownload();
+    webDownload(nameImg);
     download = true;
   }
 }
