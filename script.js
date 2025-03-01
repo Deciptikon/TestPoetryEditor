@@ -156,29 +156,23 @@ function downloadCanvas() {
       if (data.app === "vkclient" || data.app === "vkme") {
         test(ctx, "red");
         canvas.toBlob(function (blob) {
-          const reader = new FileReader();
-          reader.readAsDataURL(blob);
+          const blobUrl = URL.createObjectURL(blob);
           text(ctx, `         blob`);
-          reader.onloadend = function () {
-            const base64data = reader.result.split(",")[1]; // Убираем data:image/png;base64,
-
-            vkBridge
-              .send("VKWebAppShowSaveFileDialog", {
-                file_name: "my-image.png",
-                file_extension: "png",
-                file_data: base64data,
-              })
-              .then((response) => {
-                console.log("Файл успешно скачан:", response);
-                text(ctx, `скачан`);
-                download = true;
-              })
-              .catch((error) => {
-                console.error("Ошибка при скачивании файла:", error);
-                text(ctx, `ошибка`);
-                alert(`Ошибка при скачивании файла: ${error}`);
-              });
-          };
+          vkBridge
+            .send("VKWebAppShowSaveFileDialog", {
+              url: blobUrl,
+              filename: "my-image.png",
+            })
+            .then((response) => {
+              console.log("Файл успешно скачан:", response);
+              text(ctx, `скачан`);
+              download = true;
+            })
+            .catch((error) => {
+              console.error("Ошибка при скачивании файла:", error);
+              text(ctx, `ошибка`);
+              alert(`Ошибка при скачивании файла: ${error}`);
+            });
         }, "image/png");
         //return;
       } else {
