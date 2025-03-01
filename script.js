@@ -136,6 +136,8 @@ function webDownload() {
 }
 
 function downloadCanvas() {
+  let download = false;
+
   if (window.vkBridge) {
     console.log("vkBridge доступен");
     text(ctx, "vkBridge доступен");
@@ -169,6 +171,7 @@ function downloadCanvas() {
               .then((response) => {
                 console.log("Файл успешно скачан:", response);
                 text(ctx, `скачан`);
+                download = true;
               })
               .catch((error) => {
                 console.error("Ошибка при скачивании файла:", error);
@@ -181,12 +184,16 @@ function downloadCanvas() {
       } else {
         test(ctx, "blue");
         webDownload();
+        download = true;
       }
     })
     .catch((error) => {
       console.error(error);
       test(ctx, "black");
     });
+  if (!download) {
+    webDownload();
+  }
 }
 
 function test(ctx, color) {
