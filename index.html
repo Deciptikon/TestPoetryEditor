@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="p:domain_verify" content="de80232cc08cc10207e04763fdf2f92f" />
+    <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+    <link rel="manifest" href="./manifest.json" />
+    <title>PoetryEditor</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <button id="downloadButton"><p></p></button>
+    <div id="sidebar" class="sidebar">
+      <div class="raw">
+        <div class="column">
+          <button id="toggleButton"><p>&lt;</p></button>
+        </div>
+
+        <div class="spacedColumn">
+          <div>
+            <label for="sliderHightCanvas">Добавить высоту: </label>
+            <input
+              type="range"
+              id="sliderHightCanvas"
+              min="0"
+              max="2000"
+              value="0"
+            />
+          </div>
+          <div style="height: 10px"></div>
+          <div>
+            <label for="imageInput">Открыть изображение</label>
+            <input type="file" id="imageInput" accept="image/*" />
+          </div>
+          <div>
+            <label for="sliderScaleImage">Масштаб изображения: </label>
+            <input
+              type="range"
+              id="sliderScaleImage"
+              min="0.01"
+              max="3"
+              step="0.01"
+              value="2.1"
+            />
+          </div>
+          <div style="height: 10px"></div>
+          <div>
+            <label for="colorPicker">Цвет заливки:</label>
+            <input type="color" id="colorPicker" value="#000000" />
+          </div>
+          <div>
+            <label for="sliderHightGradient">Размер градиента:</label>
+            <input
+              type="range"
+              id="sliderHightGradient"
+              min="10"
+              max="1500"
+              step="1"
+              value="500"
+            />
+          </div>
+          <div style="height: 10px"></div>
+          <div>
+            <label for="colorText">Цвет текста:</label>
+            <select id="colorText">
+              <option value="#ffffff" selected>Белый</option>
+              <option value="#000000">Чёрный</option>
+            </select>
+          </div>
+          <div>
+            <label for="colorSign">Цвет имени:</label>
+            <select id="colorSign">
+              <option value="#bababa">Светлый</option>
+              <option value="#808080" selected>Полутон</option>
+              <option value="#444444">Тёмный</option>
+            </select>
+          </div>
+          <div style="height: 10px"></div>
+          <div>
+            <label for="textAreaTitle">Название стихотворения:</label>
+            <textarea id="textAreaTitle" rows="2" cols="30">
+Неизведанная
+неизбежность</textarea
+            >
+          </div>
+
+          <div>
+            <label for="textAreaText">Текст стихотворения:</label>
+            <textarea id="textAreaText" rows="10" cols="30">
+Перед тобой есть два пути,
+Пойдёшь лишь тем, что пожелаешь.
+Один: короткий и тернист,
+Второй: свободен и извилист.
+
+Но все пути ведут туда,
+Где неизведанная мыслью,
+Терра-инкогнито земля,
+Что иногда в кошмарах снится.
+
+Презрев желания, мечты,
+Ступив на путь во тьму манящий,
+Перед вратами пустоты,
+Оставь надежду всяк стоящий.</textarea
+            >
+          </div>
+
+          <div>
+            <label for="textAreaSign">Имя/псевдоним:</label>
+            <textarea id="textAreaSign" rows="2" cols="30">
+МРАЧНЫЕ СТИХИ 
+(БЫЧКОВ ДМИТРИЙ)</textarea
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <canvas id="myCanvas" width="1080" height="1920"></canvas>
+
+    <script>
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker
+          .register("/PoetryEditor/service-worker.js")
+          .then((registration) => {
+            console.log("Service Worker зарегистрирован:", registration);
+          })
+          .catch((error) => {
+            console.error("Ошибка при регистрации Service Worker:", error);
+          });
+      }
+    </script>
+    <script>
+      function initBridge() {
+        vkBridge.send("VKWebAppInit");
+        console.log(`initBridge()`);
+      }
+    </script>
+    <script
+      src="https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js"
+      onload="initBridge()"
+    ></script>
+    <script src="script.js?v=1.0.5"></script>
+  </body>
+</html>
