@@ -105,7 +105,30 @@ function updateCanvas() {
   drawRoundedRect(ctx, [canvas.width, canvas.height], 20, 25);
 }
 
+function test(ctx, color) {
+  ctx.fillStyle = color;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+}
+
 function downloadCanvas() {
+  if (window.vkBridge) {
+    console.log("vkBridge доступен");
+  } else {
+    console.error("vkBridge не найден");
+  }
+  console.log(window.vkBridge);
+
+  vkBridge
+    .send("VKWebAppGetConfig")
+    .then((data) => {
+      console.log(data.platform);
+      data.platform === "android" ? test(ctx, "red") : test(ctx, "blue");
+    })
+    .catch((error) => {
+      console.error(error);
+      test(ctx, "black");
+    });
+
   var imageURL = canvas.toDataURL("image/png");
 
   var link = document.createElement("a");
