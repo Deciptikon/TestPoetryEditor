@@ -177,8 +177,10 @@ function downloadCanvas() {
         //return;
       } else {
         test(ctx, "blue");
-        webDownload();
-        download = true;
+        if (!download) {
+          webDownload();
+          download = true;
+        }
       }
     })
     .catch((error) => {
@@ -187,6 +189,7 @@ function downloadCanvas() {
     });
   if (!download) {
     webDownload();
+    download = true;
   }
 }
 
