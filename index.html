@@ -8,6 +8,7 @@
     <link rel="manifest" href="./manifest.json" />
     <title>PoetryEditor</title>
     <link rel="stylesheet" href="styles.css" />
+    <link href="pickr.classic.min.css" rel="stylesheet" />
   </head>
   <body>
     <button id="downloadButton"><p></p></button>
@@ -47,7 +48,8 @@
           <div style="height: 10px"></div>
           <div>
             <label for="colorPicker">Цвет заливки:</label>
-            <input type="color" id="colorPicker" value="#000000" />
+
+            <div id="colorPicker"></div>
           </div>
           <div>
             <label for="sliderHightGradient">Размер градиента:</label>
@@ -116,7 +118,7 @@
       </div>
     </div>
     <canvas id="myCanvas" width="1080" height="1920"></canvas>
-
+    <script src="pickr.min.js"></script>
     <script>
       if ("serviceWorker" in navigator) {
         navigator.serviceWorker
@@ -139,6 +141,6 @@
       src="https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js"
       onload="initBridge()"
     ></script>
-    <script src="script.js?v=1.0.22"></script>
+    <script src="script.js?v=1.0.23"></script>
   </body>
 </html>
