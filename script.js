@@ -3,13 +3,16 @@ console.log(`script.js`);
 const canvas = document.getElementById("myCanvas");
 const ctx = canvas.getContext("2d");
 
+const sliderHightCanvas = document.getElementById("sliderHightCanvas");
+const sliderScaleImage = document.getElementById("sliderScaleImage");
+const imageInput = document.getElementById("imageInput");
 const pickr = Pickr.create({
   el: "#colorPicker",
-  theme: "classic",
+  theme: "classic", //"monolith"  //"nano"  //"classic"
   default: "#000000",
   components: {
     preview: true,
-    opacity: true,
+    //opacity: true,
     hue: true,
     interaction: {
       hex: true,
@@ -19,11 +22,6 @@ const pickr = Pickr.create({
     },
   },
 });
-
-const sliderHightCanvas = document.getElementById("sliderHightCanvas");
-const sliderScaleImage = document.getElementById("sliderScaleImage");
-const imageInput = document.getElementById("imageInput");
-const colorPicker = document.getElementById("colorPicker");
 const sliderHightGradient = document.getElementById("sliderHightGradient");
 const textAreaTitle = document.getElementById("textAreaTitle");
 const textAreaText = document.getElementById("textAreaText");
@@ -444,14 +442,6 @@ pickr.on("save", (color) => {
     updateCanvas();
   }
 });
-
-/*colorPicker.addEventListener("input", (event) => {
-  hexColor = event.target.value;
-  let rgb = hexToRgb(hexColor);
-  RGB_GRAD = [rgb.r, rgb.g, rgb.b];
-  updateCanvas();
-  //console.log('Выбранный цвет:', currentColor);
-});*/
 
 textAreaTitle.addEventListener("input", () => {
   TEXT_TITLE = textAreaTitle.value;
