@@ -153,7 +153,7 @@ function downloadCanvas() {
           .then((response) => {
             console.log("Файл успешно скачан:", response);
             //alert(`Файл успешно скачан.`);
-            showToast(`Иллюстрация сохранена 1.`, 3000);
+            showToast(`Иллюстрация сохранена.`, 3000);
           })
           .catch((error) => {
             console.error("Ошибка при скачивании файла:", error);
@@ -164,7 +164,7 @@ function downloadCanvas() {
         if (!download) {
           webDownload(nameImg);
           download = true;
-          showToast(`Иллюстрация сохранена 2.`, 3000);
+          showToast(`Иллюстрация сохранена.`, 3000);
         }
       }
     })
@@ -175,7 +175,7 @@ function downloadCanvas() {
   if (!download) {
     webDownload(nameImg);
     download = true;
-    showToast(`Иллюстрация сохранена 3.`, 3000);
+    showToast(`Загрузка иллюстрации.`, 3000);
   }
 }
 
