@@ -57,7 +57,7 @@
           </div>
           <!-- заливка, градиент и цвета -->
 
-          <div>
+          <div class="raw">
             <label for="colorPicker">Цвет заливки:</label>
             <div id="colorPicker"></div>
           </div>
@@ -97,6 +97,16 @@
               id="sliderHightCanvas"
               min="0"
               max="2000"
+              value="0"
+            />
+          </div>
+          <div>
+            <label for="sliderWidthCanvas">Добавить ширину: </label>
+            <input
+              type="range"
+              id="sliderWidthCanvas"
+              min="0"
+              max="500"
               value="0"
             />
           </div>
@@ -144,6 +154,6 @@
       src="https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js"
       onload="initBridge()"
     ></script>
-    <script src="script.js?v=1.0.13"></script>
+    <script src="script.js?v=1.0.14"></script>
   </body>
 </html>
